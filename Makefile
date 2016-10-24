@@ -1,13 +1,8 @@
-
 all: clean compile
 
 clean:
-	-rm lib/s-xml.fasl
-	-rm lib/s-xml/*.fasl
-	-rm lib/cl-ppcre/*.fasl
-	-rm *~
-	-rm src/*~
-	cd lib && ./clean.sh && cd ..
+	find -name "*.fasl" | xargs rm -f
+	find -name "*~" | xargs rm -f
 
 compile:
 	cd lib && ./compile-s-xml.sh
@@ -15,5 +10,8 @@ compile:
 start:
 	./start-server 5000 -noxml
 
-superclean: clean
+stop:
+	./stop-server
+
+superclean: stop clean
 	-rm SCONE-SERVER.LOG

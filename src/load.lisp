@@ -124,7 +124,7 @@
 
 
   (load "lib/cl-ppcre/load.lisp")
-  (load "lib/s-xml.fasl")
+  (load "lib/s-xml/package.lisp")
 
 
   (format t "Loading xml-helper-fcns.lisp...~%")
