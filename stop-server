@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ ! -f 'scone-server.pid' ]; then echo 'Error: no scone-server.pid file detected.  Either the server is not running or the pid file has been deleted.  If you believe the server is running please kill the server process manually.'; exit; fi
+
+kill -9 `cat scone-server.pid`
+
+rm -f scone-server.pid
+

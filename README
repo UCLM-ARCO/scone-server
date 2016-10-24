@@ -1,0 +1,24 @@
+Scone Server/Gateway
+Version 1.1
+
+Last updated: 1/3/07
+
+This README describes the basic layout of the files in this directory.  For more information on running and using a Scone server, please refer to the manual: 
+doc/SconeServerGuide.doc
+
+Three scripts are provided for starting and stopping the server.  To start the server use:
+./start-server on Unix-based systems
+./start-server.bat on Windows
+
+To stop the server on Unix-based systems:
+./stop-server
+To stop the server on Windows, manually quit the Allegro Lisp process that is started by the start-server.bat script (this should be available in the system tray as an Allegro Lisp icon).
+
+
+There are three other folders in this directory:
+
+src:	This is where all the Scone server machinery and support for various application (such as the SemanticAnnotator, BriefingAnnotator, SconeEdit and the ImplicitFeatureAnnotator) resides.  These files are currently stored in source format.  If speed is an important issue, these file may be compiled and the compiled files loaded, however that functionality is not presently built in to this distribution.
+
+lib:	This folder contains the Lisp libraries that are used by the Scone server.  Presently, the two libraries that are used are S-XML, a Lisp XML parser, and CL-PPCRE, a regular expressions library.  S-XML is needed primarily to parse the incoming XML requests.  CL-PPCRE is mainly used for processing XML strings sent back to the client by removing any formatting that does not conform to the XML spec.
+
+kb:	This folder is the location for knowledge bases (KBs) that are distributed with the server.  The default server configuration also loads KB files from the Scone installation, specifically from *default-kb-pathname*.
