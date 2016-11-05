@@ -8,7 +8,7 @@ compile:
 	cd lib && ./compile-s-xml.sh
 
 start:
-	./start-server 5000 -noxml
+	./start-server 6517 -noxml
 
 stop:
 	./stop-server
