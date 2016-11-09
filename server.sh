@@ -17,7 +17,7 @@ HEAP_SIZE=512                    #only for CMUCL
 PATH_TO_SCONE="/usr/share/scone/"    # need trailing slash
 SCONE_VERSION="1.0.0"
 
-LOG_FILENAME="SCONE-SERVER.LOG"
+LOG_FILENAME="$PWD/SCONE-SERVER.LOG"
 SERVER_ADDRESS="0.0.0.0"
 
 
@@ -26,6 +26,8 @@ SERVER_ADDRESS="0.0.0.0"
 # Use this to make pathnames absolute
 # WHERE=/opt/scone/scone-server-1.0
 WHERE="$PWD"
+here=$PWD
+cd $WHERE
 
 # Scone server port number, from the command line.
 PORT=${1:-6517}
@@ -52,7 +54,7 @@ echo -e "Config: port: $PORT, xml: $XML, host=$SERVER_ADDRESS\n"
 
 # Now we have everything we need.  Let's get ready to start the server.
 
-SERVER_PID=$WHERE/scone-server.pid
+SERVER_PID=$here/scone-server.pid
 
 # Make sure there isn't already a PID file here.
 

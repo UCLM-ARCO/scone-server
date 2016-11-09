@@ -1,17 +1,22 @@
-all: clean compile
+# -*- mode: makefile-gmake; coding: utf-8 -*-
 
-clean:
-	find -name "*.fasl" | xargs rm -f
-	find -name "*~" | xargs rm -f
+DESTDIR?=~
+BASE=$(DESTDIR)/usr/share/scone-server
+
+all: clean compile
 
 compile:
 	cd lib && ./compile-s-xml.sh
 
-start:
-	./start-server 6517 -noxml
+install:
+	install -d $(DESTDIR)/usr/bin
+	install -m 644 server.sh $(DESTDIR)/usr/bin/scone-server
+	install -d -m 766 $(BASE)
 
-stop:
-	./stop-server
+PHONY: clean
+clean:
+	find -name "*.fasl" | xargs rm -f
+	find -name "*~" | xargs rm -f
 
-superclean: stop clean
+superclean: clean
 	-rm SCONE-SERVER.LOG

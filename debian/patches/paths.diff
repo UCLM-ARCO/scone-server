@@ -1,0 +1,13 @@
+Index: scone-server/server.sh
+===================================================================
+--- scone-server.orig/server.sh
++++ scone-server/server.sh
+@@ -25,7 +25,7 @@ SERVER_ADDRESS="0.0.0.0"
+ 
+ # Use this to make pathnames absolute
+ # WHERE=/opt/scone/scone-server-1.0
+-WHERE="$PWD"
++WHERE=/usr/share/scone-server
+ here=$PWD
+ cd $WHERE
+ 
