@@ -19,4 +19,4 @@ clean:
 	find -name "*~" | xargs rm -f
 
 superclean: clean
-	-rm SCONE-SERVER.LOG
+	-rm -f SCONE-SERVER.LOG

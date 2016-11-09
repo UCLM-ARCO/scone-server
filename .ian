@@ -1,0 +1,3 @@
+function ian-clean-hook {
+    make superclean
+}
