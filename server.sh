@@ -91,7 +91,7 @@ fi
 
 echo $! > $SERVER_PID
 
-trap ctrl-c INT
+trap ctrl-c INT QUIT TERM
 
 function ctrl-c {
     kill -9 $(cat $SERVER_PID)
