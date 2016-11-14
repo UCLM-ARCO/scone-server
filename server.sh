@@ -24,10 +24,10 @@ SERVER_ADDRESS="0.0.0.0"
 ### DON'T EDIT AFTER THIS LINE ###
 
 # Use this to make pathnames absolute
-# WHERE=/opt/scone/scone-server-1.0
-WHERE="$PWD"
-here=$PWD
-cd $WHERE
+# SCONE_SERVER_PATH=/opt/scone/scone-server-1.0
+SCONE_SERVER_PATH="$PWD"
+HERE=$PWD
+cd $SCONE_SERVER_PATH
 
 # Scone server port number, from the command line.
 PORT=${1:-6517}
@@ -54,11 +54,11 @@ echo -e "Config: port: $PORT, xml: $XML, host=$SERVER_ADDRESS\n"
 
 # Now we have everything we need.  Let's get ready to start the server.
 
-SERVER_PID=$here/scone-server.pid
+SERVER_PID=$HERE/scone-server.pid
 
 # Make sure there isn't already a PID file here.
 
-if [ -f $SERVER_PID ]; then echo "Error: $WHERE/scone-server.pid file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file scone-server.pid."; exit; fi
+if [ -f $SERVER_PID ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file scone-server.pid."; exit; fi
 
 
 # This is the form that we're going to have Lisp evaluate
@@ -81,12 +81,12 @@ echo "Server started. Press C-c to stop"
 
 # Start server with CMUCL
 if [ "$LISP" = "cmucl" ]; then
-    setsid $LISP_LOC -dynamic-space-size $HEAP_SIZE -quiet -load $WHERE/src/load.lisp -eval "$EVAL_STRING" > $LOG_FILENAME 2>&1 &
+    setsid $LISP_LOC -dynamic-space-size $HEAP_SIZE -quiet -load $SCONE_SERVER_PATH/src/load.lisp -eval "$EVAL_STRING" > $LOG_FILENAME 2>&1 &
 fi
 
 # Start server with SBCL
 if [ "$LISP" = "sbcl" ]; then
-    setsid $LISP_LOC --noinform --load $WHERE/src/load.lisp --eval "$EVAL_STRING" > $LOG_FILENAME 2>&1 &
+    setsid $LISP_LOC --noinform --load $SCONE_SERVER_PATH/src/load.lisp --eval "$EVAL_STRING" > $LOG_FILENAME 2>&1 &
 fi
 
 echo $! > $SERVER_PID
