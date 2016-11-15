@@ -1,3 +1,9 @@
+scone-server (0.20161115.2-1) unstable; urgency=low
+
+  * New release
+
+ -- David Villa Alises <David.Villa@gmail.com>  Tue, 15 Nov 2016 22:01:57 +0000
+
 scone-server (0.20161115.1-1) unstable; urgency=low
 
   * New release
@@ -28,4 +34,3 @@ scone-server (0.20161109-1) unstable; urgency=low
   * Initial release
 
  -- David Villa Alises <David.Villa@gmail.com>  Wed, 09 Nov 2016 18:20:25 +0000
-
