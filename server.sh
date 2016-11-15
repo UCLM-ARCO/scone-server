@@ -17,7 +17,7 @@ HEAP_SIZE=512                    #only for CMUCL
 PATH_TO_SCONE="/usr/share/scone/"    # need trailing slash
 SCONE_VERSION="1.0.0"
 
-LOG_FILENAME="$PWD/SCONE-SERVER.LOG"
+LOG_FILENAME="/tmp/SCONE-SERVER.LOG"
 SERVER_ADDRESS="0.0.0.0"
 
 
@@ -54,7 +54,7 @@ echo -e "Config: port: $PORT, xml: $XML, host=$SERVER_ADDRESS\n"
 
 # Now we have everything we need.  Let's get ready to start the server.
 
-SERVER_PID=$HERE/scone-server.pid
+SERVER_PID=/tmp/scone-server.pid
 
 # Make sure there isn't already a PID file here.
 
@@ -79,6 +79,8 @@ fi
 echo "All error and log messages will be printed to \"$LOG_FILENAME\")..."
 echo "Server started. Press C-c to stop"
 
+trap '' INT
+
 # Start server with CMUCL
 if [ "$LISP" = "cmucl" ]; then
     setsid $LISP_LOC -dynamic-space-size $HEAP_SIZE -quiet -load $SCONE_SERVER_PATH/src/load.lisp -eval "$EVAL_STRING" > $LOG_FILENAME 2>&1 &
@@ -90,13 +92,23 @@ if [ "$LISP" = "sbcl" ]; then
 fi
 
 echo $! > $SERVER_PID
+echo "[ready] scone-server"
 
 trap ctrl-c INT QUIT TERM
 
 function ctrl-c {
-    kill -9 $(cat $SERVER_PID)
+    local pid=$(cat $SERVER_PID)
+    kill -SIGTERM $pid
+    sleep 1.5
+
+    while ps fax | awk -e '{ print $1 }' | grep $pid; do
+	echo killing scone-server $pid
+	kill -SIGKILL $pid 2> /dev/null
+	sleep 0.5
+    done
+
     rm -f $SERVER_PID
-    echo -e "\n[end]"
+    echo -e "\n[end] scone-server"
     exit
 }
 
