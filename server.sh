@@ -79,8 +79,6 @@ fi
 echo "All error and log messages will be printed to \"$LOG_FILENAME\")..."
 echo "Server started. Press C-c to stop"
 
-trap '' INT
-
 # Start server with CMUCL
 if [ "$LISP" = "cmucl" ]; then
     setsid $LISP_LOC -dynamic-space-size $HEAP_SIZE -quiet -load $SCONE_SERVER_PATH/src/load.lisp -eval "$EVAL_STRING" > $LOG_FILENAME 2>&1 &
