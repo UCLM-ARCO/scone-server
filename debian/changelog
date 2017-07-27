@@ -1,3 +1,10 @@
+scone-server (0.20170727-1) unstable; urgency=low
+
+  * New release
+  * Dealing with path with spaces
+
+ -- David Villa Alises <David.Villa@gmail.com>  Thu, 27 Jul 2017 17:36:24 +0200
+
 scone-server (0.20161115.2-1) unstable; urgency=low
 
   * New release

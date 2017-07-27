@@ -2,12 +2,12 @@ Index: scone-server/server.sh
 ===================================================================
 --- scone-server.orig/server.sh
 +++ scone-server/server.sh
-@@ -25,7 +25,7 @@ SERVER_ADDRESS="0.0.0.0"
+@@ -30,7 +30,7 @@ SERVER_ADDRESS="0.0.0.0"
  
  # Use this to make pathnames absolute
  # SCONE_SERVER_PATH=/opt/scone/scone-server-1.0
 -SCONE_SERVER_PATH="$PWD"
 +SCONE_SERVER_PATH="/usr/share/scone-server"
- HERE=$PWD
- cd $SCONE_SERVER_PATH
+ HERE="$PWD"
+ cd "$SCONE_SERVER_PATH"
  
