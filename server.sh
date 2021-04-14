@@ -86,28 +86,42 @@ echo "Server started. Press C-c to stop"
 
 # Start server with CMUCL
 if [ "$LISP" = "cmucl" ]; then
-    setsid $LISP_LOC -dynamic-space-size $HEAP_SIZE -quiet -load "$SCONE_SERVER_PATH/src/load.lisp" -eval "$EVAL_STRING" > "$LOG_FILENAME" 2>&1 &
-fi
-
-# Start server with SBCL
-if [ "$LISP" = "sbcl" ]; then
     setsid $LISP_LOC --noinform --load "$SCONE_SERVER_PATH/src/load.lisp" --eval "$EVAL_STRING" > "$LOG_FILENAME" 2>&1 &
+
+elif [ "$LISP" = "sbcl" ]; then  # Start server with SBCL
+    setsid $LISP_LOC --noinform --load "$SCONE_SERVER_PATH/src/load.lisp" --eval "$EVAL_STRING" > "$LOG_FILENAME" 2>&1 &
+
+else
+    echo "No LISP interpreter defined"
+    exit 1
 fi
 
-echo $! > "$SERVER_PID"
-echo "[ready] scone-server"
+server_pid=$!
+echo $server_pid > "$SERVER_PID"
+
+sleep 1
+
+if ! kill -0 $server_pid > /dev/null 2>&1; then
+    echo "ERROR: scone server did not start"
+    rm -f "$SERVER_PID"
+    exit 1
+fi
+
+echo "[ready] scone-server pid:$server_pid"
 
 trap ctrl-c INT QUIT TERM
 
 function ctrl-c {
-    local pid=$(cat "$SERVER_PID")
-    kill -SIGTERM $pid
-    sleep 1.5
+    echo -e "\nStopping server..."
 
-    while ps fax | awk -e '{ print $1 }' | grep $pid; do
-	echo killing scone-server pid:$pid
-	kill -SIGKILL $pid 2> /dev/null
-	sleep 0.5
+    local pid=$(cat "$SERVER_PID")
+    kill -SIGTERM $server_pid > /dev/null 2>&1
+    sleep 2
+
+    while kill -0 $server_pid > /dev/null 2>&1; do
+	    echo "killing scone-server pid:$pid"
+	    kill -SIGKILL $server_pid > /dev/null 2>&1
+	    sleep 1
     done
 
     rm -f "$SERVER_PID"
