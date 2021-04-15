@@ -1,100 +1,20 @@
 #!/bin/bash
 
-### CONFIGURATION VARIABLES ###
+LISP=/usr/bin/sbcl
 
-# LISP and LISP location
+WORKDIR=${1:-".scone"}
+mkdir -p $WORKDIR
 
-# Specify which Lisp to use
-LISP=sbcl
-#LISP=cmucl
-
-#Specify the location of the Lisp binary
-LISP_LOC=/usr/bin/sbcl
-
-HEAP_SIZE=512                    #only for CMUCL
-
-# Scone and Scone location
-PATH_TO_SCONE="/usr/share/scone/"    # need trailing slash
-SCONE_VERSION="1.0.0"
-DOT_SCONE="$PWD/.scone"
-
-if ! [ -d "$DOT_SCONE" ]; then
-    mkdir "$DOT_SCONE"
-fi
-
-LOG_FILENAME="$DOT_SCONE/SCONE-SERVER.LOG"
-SERVER_ADDRESS="0.0.0.0"
-
-
-### DON'T EDIT AFTER THIS LINE ###
-
-# Use this to make pathnames absolute
-# SCONE_SERVER_PATH=/opt/scone/scone-server-1.0
-SCONE_SERVER_PATH="$PWD"
-HERE="$PWD"
-cd "$SCONE_SERVER_PATH"
-
-# Scone server port number, from the command line.
-PORT=${1:-6517}
-
-### PROCESS THE COMMAND LINE ARGS ###
-
-# If no port number is supplied, exit and print usage
-if [ "$PORT" = "" ]; then
-    echo "Usage: ./start-server PORT_NUMBER { -noxml | -xml } [SERVER-ADDRESS] "
-    exit
-fi
-
-if [ "$2" = "-xml" ]; then
-    XML=t
-else
-    XML=nil  # not use XML by default
-fi
-
-if [ -n "$3" ]; then #if we get a third command line option
-    SERVER_ADDRESS="$3"
-fi
-
-echo -e "Config: port: $PORT, xml: $XML, host=$SERVER_ADDRESS\n"
-
-# Now we have everything we need.  Let's get ready to start the server.
-
-SERVER_PID="$DOT_SCONE/scone-server.pid"
+LOG="$WORKDIR/server.log"
+SERVER_PID="$WORKDIR/server.pid"
 
 # Make sure there isn't already a PID file here.
-
 if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file scone-server.pid."; exit; fi
 
-
-# This is the form that we're going to have Lisp evaluate
-EVAL_STRING="(progn (load-and-start-scone-server :port $PORT :scone-path \"$PATH_TO_SCONE\" :scone-version \"$SCONE_VERSION\" :xml $XML :server-address \"$SERVER_ADDRESS\" ) (quit))"
-# This is the form that we're going to have Lisp evaluate
-
-
-# Make sure we haven't been given an unsupported set of options.
-if [ "$LISP" = "cmucl" ]; then
-    if [ "$SERVER_ADDRESS" != "0.0.0.0" ]; then echo "Using an alternate interface is only available on SBCL.  Please use 0.0.0.0."; exit;  fi
-fi
-if [ "$LISP" = "acl" ]; then
-    if [ "$SERVER_ADDRESS" != "0.0.0.0" ]; then echo "Using an alternate interface is only available on SBCL.  Please use 0.0.0.0."; exit; fi
-fi
-
-# Now, go ahead and start the server, sending stdout and stderr to the specified log file.
-
-echo "All error and log messages will be printed to \"$LOG_FILENAME\")..."
+echo "All error and log messages will be printed to \"$LOG\"..."
 echo "Server started. Press C-c to stop"
 
-# Start server with CMUCL
-if [ "$LISP" = "cmucl" ]; then
-    setsid $LISP_LOC --noinform --load "$SCONE_SERVER_PATH/src/load.lisp" --eval "$EVAL_STRING" > "$LOG_FILENAME" 2>&1 &
-
-elif [ "$LISP" = "sbcl" ]; then  # Start server with SBCL
-    setsid $LISP_LOC --noinform --load "$SCONE_SERVER_PATH/src/load.lisp" --eval "$EVAL_STRING" > "$LOG_FILENAME" 2>&1 &
-
-else
-    echo "No LISP interpreter defined"
-    exit 1
-fi
+setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
 
 server_pid=$!
 echo $server_pid > "$SERVER_PID"
@@ -109,12 +29,11 @@ fi
 
 echo "[ready] scone-server pid:$server_pid"
 
-trap ctrl-c INT QUIT TERM
+trap ctrl-c INT QUIT
 
 function ctrl-c {
-    echo -e "\nStopping server..."
+    echo -e "\nstopping scone-server..."
 
-    local pid=$(cat "$SERVER_PID")
     kill -SIGTERM $server_pid > /dev/null 2>&1
     sleep 2
 
@@ -125,7 +44,7 @@ function ctrl-c {
     done
 
     rm -f "$SERVER_PID"
-    echo -e "\n[end] scone-server"
+    echo -e "[end] scone-server"
     exit
 }
 
