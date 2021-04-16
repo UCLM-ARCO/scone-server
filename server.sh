@@ -9,7 +9,7 @@ LOG="$WORKDIR/server.log"
 SERVER_PID="$WORKDIR/server.pid"
 
 # Make sure there isn't already a PID file here.
-if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file scone-server.pid."; exit; fi
+if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file server.pid."; exit; fi
 
 echo "All error and log messages will be printed to \"$LOG\"..."
 echo "Server started. Press C-c to stop"
