@@ -2,7 +2,7 @@
 
 LISP=/usr/bin/sbcl
 
-WORKDIR=${1:-".scone"}
+WORKDIR=${1:-"$PWD/.scone"}
 mkdir -p $WORKDIR
 
 LOG="$WORKDIR/server.log"

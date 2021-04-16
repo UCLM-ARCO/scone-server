@@ -1,23 +1,12 @@
-Index: scone-server/src/server.lisp
-===================================================================
---- scone-server.orig/src/server.lisp
-+++ scone-server/src/server.lisp
-@@ -1,4 +1,4 @@
--(load "src/load.lisp")
-+(load "/usr/share/scone-server/src/load.lisp")
- 
- (load-and-start-scone-server
-   :port 6517
 Index: scone-server/server.sh
 ===================================================================
 --- scone-server.orig/server.sh
 +++ scone-server/server.sh
-@@ -14,7 +14,7 @@ if [ -f "$SERVER_PID" ]; then echo "Erro
+@@ -14,6 +14,7 @@ if [ -f "$SERVER_PID" ]; then echo "Erro
  echo "All error and log messages will be printed to \"$LOG\"..."
  echo "Server started. Press C-c to stop"
  
--setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
-+setsid $LISP --noinform --load /usr/share/scone-server/src/server.lisp > "$LOG" 2>&1 &
++cd /usr/share/scone-server
+ setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
  
  server_pid=$!
- echo $server_pid > "$SERVER_PID"
