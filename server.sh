@@ -27,7 +27,7 @@ if ! kill -0 $server_pid > /dev/null 2>&1; then
     exit 1
 fi
 
-echo "[ready] scone-server pid:$server_pid"
+echo "[ready] scone-server pid:$server_pid port:6517"
 
 trap ctrl-c INT QUIT
 
