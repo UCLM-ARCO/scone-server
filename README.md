@@ -2,8 +2,8 @@
 
 To install `scone-server` just:
   
-* Add [pike repository](http://pike.esi.uclm.es/)
-* sudo apt install scone
+* Add [arco repository](https://uclm-arco.github.io/debian/)
+* sudo apt install scone-server
 
 To run it just:
 
@@ -15,4 +15,4 @@ To run it just:
     ...
 
 
-See [README.legacy](https://bitbucket.org/arco_group/scone-server/raw/tip/README.legacy) for a description.
+See [README.legacy](https://github.com/UCLM-ARCO/scone-server/blob/master/README.legacy) for a description.
