@@ -1,3 +1,4 @@
 .scone
 .vscode
-
+debian/.debhelper
+debian/scone-server
