@@ -34,13 +34,13 @@ trap ctrl-c INT QUIT
 function ctrl-c {
     echo -e "\nstopping scone-server..."
 
-    kill -SIGTERM $server_pid > /dev/null 2>&1
-    sleep 2
+    kill -SIGABRT $server_pid > /dev/null 2>&1
+    sleep 1
 
     while kill -0 $server_pid > /dev/null 2>&1; do
 	    echo "killing scone-server pid:$server_pid"
 	    kill -SIGKILL $server_pid > /dev/null 2>&1
-	    sleep 1
+        sleep 1
     done
 
     rm -f "$SERVER_PID"
