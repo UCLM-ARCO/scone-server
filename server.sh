@@ -38,7 +38,7 @@ function ctrl-c {
     sleep 2
 
     while kill -0 $server_pid > /dev/null 2>&1; do
-	    echo "killing scone-server pid:$pid"
+	    echo "killing scone-server pid:$server_pid"
 	    kill -SIGKILL $server_pid > /dev/null 2>&1
 	    sleep 1
     done
