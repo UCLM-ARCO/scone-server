@@ -6,6 +6,7 @@ HUB=docker.pkg.github.com
 VERSION=latest
 NAME=scone-server
 IMAGE=${HUB}/uclm-arco/${NAME}/${NAME}:${VERSION}
+PORT=6517
 
 login:
 	@test ! -z "${GITHUB_USERNAME}" || (echo "ERROR: Define var GITHUB_USERNAME"; false)
@@ -23,4 +24,4 @@ version:
 	docker run -v $$PWD:/app ${NAME} dpkg -l ${NAME}
 
 run:
-	docker run -v $$PWD:/app -u $(shell id -u) ${NAME}
+	docker run -v $$PWD:/app -p $$PORT:$$PORT -u $(shell id -u) ${NAME}

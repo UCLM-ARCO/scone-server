@@ -13,5 +13,6 @@ RUN apt-get update; \
 
 RUN apt-get -y clean; apt-get -y autoclean; apt-get -y autoremove
 
+EXPOSE 6517/tcp
 WORKDIR /app
 CMD [ "scone-server" ]

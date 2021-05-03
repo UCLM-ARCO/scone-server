@@ -3,3 +3,4 @@
 debian/.debhelper
 debian/files
 debian/scone-server*
+.pc
