@@ -2,9 +2,9 @@ Index: scone-server/server.sh
 ===================================================================
 --- scone-server.orig/server.sh
 +++ scone-server/server.sh
-@@ -35,7 +35,9 @@ if [ -f "$SERVER_PID" ]; then echo "Erro
- 
- echo "All error and log messages will be printed to \"$LOG\"..."
+@@ -33,7 +33,9 @@ function stop-server {
+ # Make sure there isn't already a PID file here.
+ if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file server.pid."; exit; fi
  
 +pushd /usr/share/scone-server > /dev/null
  setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
