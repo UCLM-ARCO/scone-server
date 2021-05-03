@@ -13,7 +13,7 @@ function scone_slive {
     return $?
 }
 
-    function stop-server {
+function stop-server {
     echo -e "\nstopping scone-server..."
 
     kill -SIGABRT $server_pid > /dev/null 2>&1
@@ -33,20 +33,23 @@ function scone_slive {
 # Make sure there isn't already a PID file here.
 if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file server.pid."; exit; fi
 
-echo "All error and log messages will be printed to \"$LOG\"..."
-
 setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
 
 server_pid=$!
 echo $server_pid > "$SERVER_PID"
 
-sleep 1
-
-if ! kill -0 $server_pid > /dev/null 2>&1; then
-    echo "ERROR: scone server did not start"
-    rm -f "$SERVER_PID"
-    exit 1
-fi
+echo "Waiting server to start..."
+tini=$(date +%s)
+while ! netstat -lptn 2> /dev/null | grep ":6517" > /dev/null; do
+    now=$(date +%s)
+    delta=$((now - tini))
+    sleep 1
+    if [ $delta -gt 4 ]; then
+        echo "ERROR: scone server did not start after 5 seconds"
+        rm -f "$SERVER_PID"
+        exit 1
+    fi
+done
 
 if [ -d scone-knowledge.d ]; then
     knowledge_dir=$(realpath scone-knowledge.d)
@@ -60,6 +63,7 @@ if [ -d scone-knowledge.d ]; then
     fi
 fi
 
+echo "log is \"$LOG\""
 echo "[ready] scone-server pid:$server_pid port:6517"
 echo "Press C-c to stop"
 
