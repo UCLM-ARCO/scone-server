@@ -38,9 +38,9 @@ setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
 server_pid=$!
 echo $server_pid > "$SERVER_PID"
 
-echo "Waiting server to start..."
+echo "waiting server to start..."
 tini=$(date +%s)
-while ! netstat -lptn 2> /dev/null | grep ":6517" > /dev/null; do
+while ! ss -lptn 2> /dev/null | grep ":6517" > /dev/null; do
     now=$(date +%s)
     delta=$((now - tini))
     sleep 1
@@ -65,7 +65,7 @@ fi
 
 echo "log is \"$LOG\""
 echo "[ready] scone-server pid:$server_pid port:6517"
-echo "Press C-c to stop"
+echo "press C-c to stop"
 
 trap stop-server INT QUIT
 
