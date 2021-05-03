@@ -2,13 +2,13 @@ Index: scone-server/server.sh
 ===================================================================
 --- scone-server.orig/server.sh
 +++ scone-server/server.sh
-@@ -36,7 +36,9 @@ if [ -f "$SERVER_PID" ]; then echo "Erro
+@@ -35,7 +35,9 @@ if [ -f "$SERVER_PID" ]; then echo "Erro
+ 
  echo "All error and log messages will be printed to \"$LOG\"..."
- echo "Server started. Press C-c to stop"
-
-+pushd /usr/share/scone-server
+ 
++pushd /usr/share/scone-server > /dev/null
  setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
-+popd
-
++popd > /dev/null
+ 
  server_pid=$!
  echo $server_pid > "$SERVER_PID"
