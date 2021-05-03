@@ -34,7 +34,6 @@ function scone_slive {
 if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file server.pid."; exit; fi
 
 echo "All error and log messages will be printed to \"$LOG\"..."
-echo "Server started. Press C-c to stop"
 
 setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
 
@@ -53,7 +52,7 @@ if [ -d scone-knowledge.d ]; then
     knowledge_dir=$(realpath scone-knowledge.d)
     echo "Loading knowledge:"
     find $knowledge_dir -type f -exec echo - {} \;
-    find $knowledge_dir -type f -exec echo \(load \"{}\"\) \; | ncat localhost 6517 > $LOG 2>&1
+    find $knowledge_dir -type f -exec echo \(load-kb \"{}\"\) \; | ncat localhost 6517 > $LOG 2>&1
 
     if grep --text "^*****SCONE-ERROR" $LOG; then
         echo "ERROR loading knowledge, aborting..."
