@@ -2,11 +2,11 @@
 
 LISP=/usr/bin/sbcl
 
-WORKDIR=${1:-"$PWD/.scone"}
-mkdir -p $WORKDIR
+DOTSCONE=${1:-"$PWD/.scone"}
+mkdir -p $DOTSCONE
 
-LOG="$WORKDIR/server.log"
-SERVER_PID="$WORKDIR/server.pid"
+LOG="$DOTSCONE/server.log"
+SERVER_PID="$DOTSCONE/server.pid"
 
 function scone_slive {
     kill -0 $server_pid > /dev/null 2>&1
