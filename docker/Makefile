@@ -24,4 +24,4 @@ version:
 	docker run -v $$PWD:/app ${NAME} dpkg -l ${NAME}
 
 run:
-	docker run -v $$PWD:/app -p $$PORT:$$PORT -u $(shell id -u) ${NAME}
+	docker run -v $$PWD:/app -p ${PORT}:${PORT} -u $(shell id -u) ${NAME}
