@@ -62,3 +62,6 @@ To start scone-wrapper from repository contents run:
     scone-server$ ./server.sh
 
 
+## Python client
+
+To invoke the scone-server from python, install [scone-client[(https://github.com/UCLM-ARCO/scone-client) module.
