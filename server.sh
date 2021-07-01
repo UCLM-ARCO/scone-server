@@ -33,7 +33,9 @@ function stop-server {
 # Make sure there isn't already a PID file here.
 if [ -f "$SERVER_PID" ]; then echo "Error: $SERVER_PID file detected.  If you believe the server is still running, find the PID and kill that process.  If the server is not running please delete the file server.pid."; exit; fi
 
+pushd /usr/share/scone-server > /dev/null
 setsid $LISP --noinform --load src/server.lisp > "$LOG" 2>&1 &
+popd > /dev/null
 
 server_pid=$!
 echo $server_pid > "$SERVER_PID"
