@@ -1,3 +1,15 @@
+scone-server (0.20210701.1-1) unstable; urgency=low
+
+  * New release
+
+ -- David Villa Alises <David.Villa@gmail.com>  Thu, 01 Jul 2021 18:14:38 +0200
+
+scone-server (0.20210701-1) unstable; urgency=low
+
+  * New release
+
+ -- David Villa Alises <David.Villa@gmail.com>  Thu, 01 Jul 2021 18:01:00 +0200
+
 scone-server (0.20210503-2) unstable; urgency=low
 
   * Depends on "ncat|nmap" for ncat in older debian releases
