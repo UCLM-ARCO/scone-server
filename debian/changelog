@@ -1,3 +1,10 @@
+scone-server (0.20210921-1) unstable; urgency=low
+
+  * New release
+  * scone-server requires sbcl <= 2:1.4.16 
+
+ -- David Villa Alises <David.Villa@gmail.com>  Tue, 21 Sep 2021 17:09:31 +0200
+
 scone-server (0.20210701.1-1) unstable; urgency=low
 
   * New release

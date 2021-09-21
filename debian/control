@@ -7,6 +7,6 @@ Standards-Version: 4.5.1
 
 Package: scone-server
 Architecture: all
-Depends: ${misc:Depends}, scone, ncat|nmap, iproute2
+Depends: ${misc:Depends}, scone, ncat|nmap, iproute2, sbcl (<= 2:1.4.16)
 Description: TCP scone wrapper server
   TCP scone wrapper server
