@@ -2,7 +2,7 @@
 
 ## Install
 
- 
+* scone-server requires sbcl (<= 2:1.4.16)
 * Add [arco repository](https://uclm-arco.github.io/debian/)
 * sudo apt install scone-server
 
@@ -37,19 +37,19 @@ Start `scone-server` from parent:
 
     $ cat scone-knowledge.d/monkeys.lisp
     (new-indv {Martin} {monkey})
-    (new-indv {Felix}  {monkey})
+    (new-indv {Lucas}  {monkey})
 
     $ scone-server
     Waiting server to start...
     Loading knowledge:
-    - /home/john/my-prj/scone-knowledge.d/monkeys.lisp
-    log is "/home/john//my-prj/.scone/server.log"
+    /home/john/my-prj/scone-knowledge.d/monkeys.lisp
+    log is "/home/john/my-prj/.scone/server.log"
     [ready] scone-server pid:308677 port:6517
     Press C-c to stop
 
 You may check knowledge is loaded just with:
 
-    $ echo "(is-x-a-y? {Felix} {monkey})" | ncat localhost 6517
+    $ echo "(is-x-a-y? {Lucas} {monkey})" | ncat localhost 6517
     [PROMPT]
     YES
     [PROMPT]
