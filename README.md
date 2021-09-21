@@ -2,7 +2,7 @@
 
 ## Install
 
- 
+* scone-server requires sbcl (<= 2:1.4.16)
 * Add [arco repository](https://uclm-arco.github.io/debian/)
 * sudo apt install scone-server
 
